@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduSphere - Premium Online Learning Portal & Dashboard</title>
+    <!-- Google Fonts: Inter & Outfit -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="edu-sphere-theme">
+
+    <!-- Top Navigation Sticky -->
+    <nav class="navbar navbar-dark pt-3 pb-3">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <span class="logo-accent-edu"><i class="fa-solid fa-graduation-cap me-2"></i>EDU</span><span class="logo-light-edu">SPHERE</span>
+            </a>
+            <div class="d-flex align-items-center gap-3">
+                <div class="user-profile-nav d-flex align-items-center gap-2">
+                    <div class="user-avatar-edu"><i class="fa-solid fa-user"></i></div>
+                    <span class="small d-none d-sm-inline fw-semibold text-white">Student Hub</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container my-5">
+        
+        <!-- Header Section -->
+        <div class="row align-items-center mb-5">
+            <div class="col-md-7">
+                <h1 class="welcome-text-edu">Expand Your Knowledge</h1>
+                <p class="subtitle-text-edu">Browse curated industry masterclasses, monitor active progress, and complete interactive skill checks.</p>
+            </div>
+            <!-- Search Control -->
+            <div class="col-md-5 mt-3 mt-md-0">
+                <div class="search-box-wrapper-edu">
+                    <i class="fa-solid fa-magnifying-glass search-icon-edu"></i>
+                    <input type="text" id="courseSearchInput" class="form-control-edu" placeholder="Search courses (e.g. JavaScript, Design)...">
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters Tabs -->
+        <div class="category-tabs-edu mb-4">
+            <button class="tab-btn-edu active" onclick="filterCourses('all')">All Skills</button>
+            <button class="tab-btn-edu" onclick="filterCourses('development')"><i class="fa-solid fa-code me-1"></i> Development</button>
+            <button class="tab-btn-edu" onclick="filterCourses('design')"><i class="fa-solid fa-palette me-1"></i> Design</button>
+            <button class="tab-btn-edu" onclick="filterCourses('business')"><i class="fa-solid fa-briefcase me-1"></i> Business</button>
+        </div>
+
+        <!-- Two Column Main Layout -->
+        <div class="row g-4">
+            
+            <!-- Left Side: Courses List Grid -->
+            <div class="col-lg-7">
+                <div class="row g-4" id="coursesGridContainer">
+                    <!-- Populated dynamically via JS -->
+                </div>
+            </div>
+
+            <!-- Right Side: Learning Workspace / Interactive Lesson Player & Quiz -->
+            <div class="col-lg-5">
+                <div class="glass-card-edu h-100 d-flex flex-column justify-content-between" id="learningWorkspace">
+                    
+                    <!-- DEFAULT VIEW (Shown when no course selected) -->
+                    <div id="defaultWorkspaceView" class="text-center py-5 my-auto">
+                        <i class="fa-solid fa-circle-play fs-1 text-muted-edu mb-3 pulse-play"></i>
+                        <h4 class="font-outfit fw-bold text-white mb-2">Interactive Workspace</h4>
+                        <p class="text-muted-edu small px-4">Select a course from the directory catalog to unlock detailed lesson lists, mock video tutorials, and skill verification quizzes.</p>
+                    </div>
+
+                    <!-- ACTIVE COURSE WORKSPACE (Hidden initially) -->
+                    <div id="activeWorkspaceView" class="d-none">
+                        
+                        <!-- Header with title -->
+                        <div class="d-flex justify-content-between align-items-start mb-4">
+                            <div>
+                                <span class="badge bg-indigo-badge mb-2 text-uppercase" id="workspaceCategory">Development</span>
+                                <h3 class="font-outfit fw-bold text-white" id="workspaceTitle">Course Title</h3>
+                            </div>
+                            <button class="btn btn-outline-edu btn-sm" onclick="closeWorkspace()"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+
+                        <!-- Mini Tab Switchers -->
+                        <ul class="nav nav-pills workspace-pills mb-4" id="workspaceTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="lessons-tab" data-bs-toggle="pill" data-bs-target="#lessonsPanel" type="button" role="tab"><i class="fa-solid fa-list-ul me-1"></i> Lessons</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="quiz-tab" data-bs-toggle="pill" data-bs-target="#quizPanel" type="button" role="tab" onclick="initWorkspaceQuiz()"><i class="fa-solid fa-circle-question me-1"></i> Skill Quiz</button>
+                            </li>
+                        </ul>
+
+                        <!-- Tab Contents -->
+                        <div class="tab-content" id="workspaceTabContent">
+                            
+                            <!-- Tab Panel 1: Lesson Sequences -->
+                            <div class="tab-pane fade show active" id="lessonsPanel" role="tabpanel">
+                                <!-- Mock Video Player Frame -->
+                                <div class="mock-player-frame mb-4">
+                                    <div class="player-overlay d-flex flex-column align-items-center justify-content-center">
+                                        <i class="fa-solid fa-video fs-2 text-indigo mb-2"></i>
+                                        <span class="small fw-semibold text-white" id="activeVideoTitle">Introduction Lecture</span>
+                                        <span class="text-muted-edu tiny mt-1"><i class="fa-solid fa-spinner fa-spin me-1"></i> Simulated HD Streaming...</span>
+                                    </div>
+                                </div>
+                                
+                                <h5 class="font-outfit fw-bold text-white mb-3">Course Playlist</h5>
+                                <div class="list-group-edu scrollable-lessons-list" id="workspaceLessonsList">
+                                    <!-- Populated dynamically via JS -->
+                                </div>
+                            </div>
+                            
+                            <!-- Tab Panel 2: Skills Quiz -->
+                            <div class="tab-pane fade" id="quizPanel" role="tabpanel">
+                                <div class="quiz-container-edu" id="quizContainer">
+                                    <!-- Populated dynamically via JS -->
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Footer workspace widget -->
+                    <div class="mt-4 pt-3 border-top-edu" id="workspaceProgressWidget" style="display: none;">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-muted-edu small">Total Course Completion:</span>
+                            <span class="fw-bold text-success-edu small" id="workspaceProgressText">0%</span>
+                        </div>
+                        <div class="progress progress-edu">
+                            <div class="progress-bar bg-success-edu" id="workspaceProgressBar" role="progressbar" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-4 text-muted-edu border-top-edu">
+        <p class="mb-0 small">EduSphere • Responsive Client-Side Course Workspace</p>
+    </footer>
+
+    <!-- Bootstrap & Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
